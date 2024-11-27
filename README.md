@@ -10,7 +10,8 @@ Project Name: Monte Carlo Simulator
 ## Synopsis:
 ```
 # Install the package in terminal
-
+cd DS5100-finalproject/
+pip install .
 
 # Import libraries and classes
 import numpy as np
