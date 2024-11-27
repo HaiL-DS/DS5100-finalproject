@@ -9,7 +9,7 @@ Project Name: Monte Carlo Simulator
 
 ## Synopsis:
 Show brief demo code of how the classes are used, i.e. code snippets showing how to install, import, and use the code to (1) create dice, (2) play a game, and (3) analyze a game. You can use preformatted blocks for the code.
-
+```
 import numpy as np
 from montecarlo.montecarlo import Die, Game, Analyzer
 
@@ -29,7 +29,7 @@ analyzer = Analyzer(game)
 print("Number of jackpots:", analyzer.jackpot())
 print("Face counts per roll:\n", analyzer.face_count())
 print("Combination counts:\n", analyzer.combo_count())
-
+```
 
 
 
