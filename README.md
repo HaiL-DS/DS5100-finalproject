@@ -8,7 +8,6 @@ Project Name: Monte Carlo Simulator
 
 
 ## Synopsis:
-Show brief demo code of how the classes are used, i.e. code snippets showing how to install, import, and use the code to (1) create dice, (2) play a game, and (3) analyze a game. You can use preformatted blocks for the code.
 ```
 # Install the package in terminal
 
@@ -37,8 +36,7 @@ print("Combination counts:\n", analyzer.combo_count())
 ```
 
 
-## API description: A list of all classes with their public methods and attributes. Each item should show their docstrings. All parameters (with data types and defaults) should be described. All return values should be described. Do not describe private methods and attributes.
-
+## API description: 
 ### 1. `Die` Class
 Represents a die that can have any number of sides with customizable weights.
 
@@ -46,7 +44,7 @@ Represents a die that can have any number of sides with customizable weights.
   `__init__(sides=np.arange(1,7))`
   Initializes the die with sides (6 by default) and assigns equal weight to each side.
     - Parameters:
-         - sides: A NumPy array of distinct values representing the die faces (defaults to a six-sided die).
+         - `sides`: A NumPy array of distinct values representing the die faces (defaults to a six-sided die).
     - Raises:
          - TypeError: If sides is not a NumPy array.
          - ValueError: If sides contains duplicate values.
@@ -54,8 +52,8 @@ Represents a die that can have any number of sides with customizable weights.
   `change_weight(face, weight)`
   Updates the weight of a specific side of the die.
     - Parameters:
-         - face: The face of the die to modify.
-         - weight: The new weight (must be numeric).
+         - `face`: The face of the die to modify.
+         - `weight`: The new weight (must be numeric).
     - Raises:
          - IndexError: If face is not a valid side.
          - TypeError: If weight is not numeric.
@@ -63,7 +61,7 @@ Represents a die that can have any number of sides with customizable weights.
   `roll_die(n=1)`
   Rolls the die n times and returns the results as a list.
     - Parameters:
-         - n: Number of rolls (defaults to 1).
+         - `n`: Number of rolls (defaults to 1).
            
   `die_status()`
   Returns the current state of the die as a pandas DataFrame.
@@ -83,41 +81,42 @@ Represents a game consisting of rolling multiple similar dice.
   `play(rolls)`
   Rolls all dice a specified number of times and stores the results.
     - Parameters:
-         - Takes a single parameter, rolls, the number of rolls for the game.
+         - `rolls`, the number of rolls for the game.
            
   `show_result(form='wide')`
   Displays the results of the most recent play.
     - Parameters:
-         - form: The format of the results ('wide' or 'narrow', default: 'wide').
+         - `form`: The format of the results ('wide' or 'narrow', defaults to 'wide').
     - Raises:
          - ValueError: If an invalid format is provided.
 
 ### 3. Analyzer Class
 Provides statistical analysis tools for the results of a Game.
 
-Methods:
-__init__(game)
-Initializes the analyzer with a Game object.
-Raises:
-
-ValueError: If the argument is not a Game object.
-jackpot()
-Calculates the number of rolls where all dice show the same face.
-Returns:
-
-An integer representing the number of jackpots.
-face_count()
-Computes how often each face is rolled per roll.
-Returns:
-
-A pandas DataFrame of counts.
-combo_count()
-Computes the distinct combinations of faces rolled and their frequencies.
-Returns:
-
-A pandas DataFrame with combination counts.
-permu_count()
-Computes the distinct permutations of faces rolled and their frequencies.
-Returns:
-
-A pandas DataFrame with permutation counts.
+- **Methods:**
+  `__init__(game)`
+  Initializes the analyzer with a Game object.
+    - Parameters:
+         - Takes a game object as input parameter. 
+    - Raises:
+         - ValueError: If the parameter is not a Game object.
+           
+  `jackpot()`
+  Calculates the number of rolls where all dice show the same face.
+    - Returns:
+         - An integer representing the number of jackpots.
+           
+  `face_count()`
+  Computes how often each face is rolled per roll.
+    - Returns:
+         - A pandas DataFrame with counts for each face that has been rolled for each die.
+           
+  `combo_count()`
+  Computes the distinct combinations of faces rolled and their frequencies.
+    - Returns:
+         - A pandas DataFrame with counts for unique combinations of faces rolled.
+           
+  `permu_count()`
+  Computes the distinct permutations of faces rolled and their frequencies.
+    - Returns:
+         - A pandas DataFrame with counts for distinct permutations of faces rolled.
