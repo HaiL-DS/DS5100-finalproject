@@ -3,8 +3,8 @@ This is the GitHub repo containing the Monte Carlo Module Simulator I created as
 
 
 ## Metadata: 
-Name: Hai Liu \
-Project Name: Monte Carlo Simulator \
+Name: Hai Liu <br />
+Project Name: Monte Carlo Simulator 
 
 
 ## Synopsis:
@@ -42,11 +42,11 @@ print("Combination counts:\n", analyzer.combo_count())
 ### 1. `Die` Class
 Represents a die that can have any number of sides with customizable weights.
 
-- **Methods**:
+- **Methods:**
   `__init__(sides=np.arange(1,7))`
-  Initializes the die with sides (default: a six-sided die) and assigns equal weights to all sides.
+  Initializes the die with sides (6 by default) and assigns equal weight to each side.
     - Parameters:
-         - sides: A NumPy array of distinct values representing the die faces.
+         - sides: A NumPy array of distinct values representing the die faces (defaults to a six-sided die).
     - Raises:
          - TypeError: If sides is not a NumPy array.
          - ValueError: If sides contains duplicate values.
@@ -60,36 +60,37 @@ Represents a die that can have any number of sides with customizable weights.
          - IndexError: If face is not a valid side.
          - TypeError: If weight is not numeric.
 
-roll_die(n=1)
-Rolls the die n times and returns the results as a list.
-Parameters:
-
-n: Number of rolls (default: 1).
-die_status()
-Returns the current state of the die as a pandas DataFrame.
+  `roll_die(n=1)`
+  Rolls the die n times and returns the results as a list.
+    - Parameters:
+         - n: Number of rolls (defaults to 1).
+           
+  `die_status()`
+  Returns the current state of the die as a pandas DataFrame.
 
 ### 2. Game Class
 Represents a game consisting of rolling multiple similar dice.
 
-Methods:
-__init__(dicelist)
-Initializes the game with a list of Die objects.
-Raises:
-
-TypeError: If any element in dicelist is not a Die.
-ValueError: If the dice do not have the same faces.
-play(rolls)
-Rolls all dice a specified number of times and stores the results.
-Parameters:
-
-rolls: Number of rolls for the game.
-show_result(form='wide')
-Displays the results of the most recent play.
-Parameters:
-
-form: The format of the results ('wide' or 'narrow', default: 'wide').
-Raises:
-ValueError: If an invalid format is provided.
+- **Methods:**
+  `__init__(dicelist)`
+  Initializes the game with a list of Die objects.
+    - Parameters:
+         - Takes a single parameter, a list of already instantiated similar dice.
+    - Raises:
+         - TypeError: If any element in dicelist is not a Die.
+         - ValueError: If the dice do not have the same faces.
+           
+  `play(rolls)`
+  Rolls all dice a specified number of times and stores the results.
+    - Parameters:
+         - Takes a single parameter, rolls, the number of rolls for the game.
+           
+  `show_result(form='wide')`
+  Displays the results of the most recent play.
+    - Parameters:
+         - form: The format of the results ('wide' or 'narrow', default: 'wide').
+    - Raises:
+         - ValueError: If an invalid format is provided.
 
 ### 3. Analyzer Class
 Provides statistical analysis tools for the results of a Game.
