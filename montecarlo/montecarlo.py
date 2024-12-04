@@ -34,7 +34,7 @@ class Die:
         elif not isinstance(weight, (int, float)):     #check if the weight is a valid value type (integer or float)
             raise TypeError("Weight can only be numeric (integer or float)!")
         else:
-            self.die.weights[face] = weight
+            self.die.weights[self.die.index == face] = weight
             
     def roll_die(self, n=1):
         """A method to roll the die one or more times. Returning a Python list of outcomes
@@ -42,7 +42,7 @@ class Die:
            The function returns a Python list of outcomes (from random sampling with replacement by weights).
         """
         
-        return list(pd.Series(self.die.index).sample(n, replace=True, weights=self.die.weights).values)
+        return list(pd.Series(self.die.index).sample(n, replace=True, weights=list(self.die.weights)).values)
     
     def die_status(self):
         """A method to show the die’s current state. It returns a copy of the private die data frame."""
@@ -80,7 +80,7 @@ class Game:
         
         self.result = pd.DataFrame({'RollNo.': list(range(1, rolls+1))})
         for i in range(len(self.dicelist)):
-            self.result[i] = self.dicelist[i].roll_die(rolls)
+            self.result[i+1] = self.dicelist[i].roll_die(rolls)
          
         self.resultdf = self.result.set_index("RollNo.")
     
@@ -123,7 +123,7 @@ class Analyzer:
         gameresult = self.game.show_result(form = "wide")
         jps = 0
         for roll in range(len(gameresult)):
-            if len(set(list(gameresult.iloc[roll, 1:]))) == 1:
+            if len(set(list(gameresult.iloc[roll, :]))) == 1:
                 jps += 1
                 
         return jps
@@ -134,8 +134,8 @@ class Analyzer:
         It returns a data frame of results.
         """
         
-        self.gameresultnarrow = self.game.show_result(form = "narrow")
-        face_count = self.gameresultnarrow.reset_index().groupby("RollNo.")["FaceRolled"].value_counts().to_frame("Counts").unstack("FaceRolled")
+        gameresultnarrow = self.game.show_result(form = "narrow")
+        face_count = gameresultnarrow.reset_index().groupby("RollNo.")["FaceRolled"].value_counts().to_frame("Counts").unstack("FaceRolled")
         return face_count.fillna(0)
     
 
@@ -145,8 +145,9 @@ class Analyzer:
         It returns a data frame of results.
         """
         
-        facecombos = self.gameresultnarrow.reset_index().groupby("RollNo.")["FaceRolled"].apply(set).to_frame("FaceCombos")
-        return facecombos["FaceCombos"].value_counts().to_frame("ComboCounts")
+        gameresultnarrow = self.game.show_result(form = "narrow")
+        facecombos = gameresultnarrow.groupby('RollNo.')["FaceRolled"].apply(list).to_frame("FaceCombos")["FaceCombos"].apply(sorted).reset_index()
+        return facecombos["FaceCombos"].value_counts().to_frame('ComboCounts').sort_index()
     
 
     def permu_count(self):
@@ -155,8 +156,9 @@ class Analyzer:
         It returns a data frame of results.
         """
         
-        facepermus = self.gameresultnarrow.reset_index().groupby("RollNo.")["FaceRolled"].apply(list).to_frame("FacePermutations")
-        return facepermus["FacePermutations"].value_counts().to_frame("PermuCounts")
+        gameresultnarrow = self.game.show_result(form = "narrow")
+        facepermus = gameresultnarrow.groupby('RollNo.')["FaceRolled"].apply(list).to_frame("FacePermutations").reset_index()
+        return facepermus["FacePermutations"].value_counts().to_frame("PermuCounts").sort_index()
     
     
     
